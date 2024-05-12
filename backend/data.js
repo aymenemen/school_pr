@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Course = require('./models/Course');
 
 // Connect to MongoDB
-mongoose.connect('mongodb://localhost/your-database-name', {
+mongoose.connect('mongodb://localhost:27017/dbE', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });

@@ -4,20 +4,24 @@ import { listCourses } from '../actions/courseActions';
 import CourseBox from '../components/CourseBox';
 import { NavLink } from "react-router-dom";
 import bck from "../assets/img/workspace.jpg";
+import axios from 'axios';
 
 function Features() {
 
-    const dispatch = useDispatch()
+  const [courses, setCourses] = useState([]);
 
-    const courseList = useSelector(state => state.courseList)
-    const { loading, error, courses} = courseList
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('http://localhost:8000/api/course/all');
+        setCourses(response.data);
+      } catch (error) {
+        console.error('Error fetching courses:', error);
+      }
+    };
 
-    useEffect(() => {
-      dispatch(listCourses())
-
-    },[dispatch]);
-
-     console.log(courses)
+    fetchData();
+  }, []); 
 
   return (
     <div>

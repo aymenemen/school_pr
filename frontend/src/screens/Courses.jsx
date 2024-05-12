@@ -3,18 +3,24 @@ import { useDispatch, useSelector } from 'react-redux';
 import { listCourses } from '../actions/courseActions';
 import CourseBox from '../components/CourseBox';
 import Footer from '../components/Footer';
+import axios from 'axios';
 
 function Courses() {
 
-    const dispatch = useDispatch()
+  const [courses, setCourses] = useState([]);
 
-    const courseList = useSelector(state => state.courseList)
-    const { loading, error, courses} = courseList
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('http://localhost:8000/api/course/all');
+        setCourses(response.data);
+      } catch (error) {
+        console.error('Error fetching courses:', error);
+      }
+    };
 
-    useEffect(() => {
-      dispatch(listCourses())
-
-    },[dispatch]);
+    fetchData();
+  }, []); 
 
   return (
     <div>
