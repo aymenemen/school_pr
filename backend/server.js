@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import connectDB from './config/db.js';
 import teacherRoutes from './routes/teacherRoutes.js';
 import courseRoutes from './routes/courseRoutes.js';
+import studentRoutes from './routes/studentRoutes.js';
 import Course from './models/courseModel.js';
 import mongoose from 'mongoose'
 import cors from 'cors'
@@ -26,6 +27,7 @@ app.get('/', (req,res) => {
 
 app.use('/api/teacher', teacherRoutes)
 app.use('/api/course', courseRoutes)
+app.use('/api/student', studentRoutes)
 
 const port = 8000 || process.env.PORT;
 

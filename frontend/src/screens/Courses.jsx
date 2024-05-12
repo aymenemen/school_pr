@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { listCourses } from '../actions/courseActions';
 import CourseBox from '../components/CourseBox';
@@ -8,20 +8,23 @@ import axios from 'axios';
 function Courses() {
 
   const [courses, setCourses] = useState([]);
+  const isFirstRender = useRef(true); // useRef to track first render
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get('http://localhost:8000/api/course/all');
-        setCourses(response.data);
-      } catch (error) {
-        console.error('Error fetching courses:', error);
-      }
-    };
-
-    fetchData();
-  }, []); 
-
+    // Check if it's the first render
+    if (isFirstRender.current) {
+      isFirstRender.current = false; // Set to false after first render
+      const fetchData = async () => {
+        try {
+          const response = await axios.get('http://localhost:8000/api/course/all');
+          setCourses(response.data);
+        } catch (error) {
+          console.error('Error fetching courses:', error);
+        }
+      };
+      fetchData(); // Fetch data only on first render
+    }
+  }, []);
   return (
     <div>
       <section>
